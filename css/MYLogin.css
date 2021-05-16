@@ -1,0 +1,81 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(51, 0, 84);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginDiv img{
+    width: 150px;
+    height: 200px;
+    margin-bottom: 20px;
+    margin-left: 35px;
+}
+
+.loginDiv form input{
+    height: 30px;
+    font-size: 18px;
+}
+
+.suButton{
+    margin-left: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+}
+
+.gsInfo{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.gsInfo button{
+    cursor: pointer;
+    padding:0 10px;
+    text-decoration: black;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+}
+
+#sifremiUnuttum{
+    text-decoration: none;
+    color: white;
+}
+
+#yanlis_sifre{
+    color: white;
+    background-color: black;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+#aktivasyonYazi{
+    color: white;
+    background-color: black;
+    padding: 5px;
+    width: fit-content;
+}
+
+#aktivasyonHata{
+    color: white;
+    background-color: black;
+    padding: 5px;
+    width: fit-content;
+}
+
+#sifreEslesmedi{
+    color: white;
+    background-color: black;
+    padding: 5px;
+    width: fit-content;
+}

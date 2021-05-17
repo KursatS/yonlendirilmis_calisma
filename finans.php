@@ -48,7 +48,9 @@ require "header.php";
         </div>
 
         <div>
-        <button style="position:absolute; margin:10px 0px 0px 10px;" onclick="finansIslemHepsi()" class="btn btn-purple";>Bütün Verileri Getir</button>
+            <button style="position:absolute; margin:10px 0px 0px 10px;" onclick="finansIslemHepsi()" class="btn btn-purple" ;>Bütün Verileri Getir</button>
+            <button style="position:absolute; margin:55px 0px 0px 10px;" onclick="pasifVerileriGetir()" class="btn btn-purple" ;>Pasif Verileri Getir</button>
+            <button style="position:absolute; margin:100px 0px 0px 10px;" onclick="aktifVerileriGetir()" class="btn btn-purple" ;>Aktif Verileri Getir</button>
 
         </div>
 
@@ -91,7 +93,7 @@ require "header.php";
                     <div style="display: flex; height:40px;">
                         <label style="min-width: 111px; left:45px; position:absolute;" for="islemKategorisiText">İşlem Kategorisi</label>
                         <select style="width: 268px; right:59px; position:absolute;" class="form-select islemKategoriSelect" name="" id="islemKategorisiText">
-                             <option value="Seciniz">Seçiniz</option>
+                            <option value="Seciniz">Seçiniz</option>
                             <option value="Urun">Ürün</option>
                             <option value="Hizmet">Hizmet</option>
                             <option value="Personel">Personel</option>
@@ -101,7 +103,7 @@ require "header.php";
                     <div style="display: flex; height:40px;">
                         <label style="min-width: 111px; left:45px; position:absolute;" for="islemTuruText">İşlem Türü</label>
                         <select style="width: 268px; right:59px; position:absolute;" class="form-select islemKategoriSelect" name="" id="islemTuruText">
-                             <option value="Seciniz">Seçiniz</option>
+                            <option value="Seciniz">Seçiniz</option>
                             <option value="1">Gelir</option>
                             <option value="0">Gider</option>
                         </select>
@@ -114,8 +116,6 @@ require "header.php";
                         <label style="min-width: 111px;" for="islemTarihiText">İşlem Tarihi</label>
                         <input style="padding: 20px 0px;" name="i2" type="text" id="islemTarihiText">
                     </div>
-                    Aktif mi?
-                    <input name="i7" type="checkbox" id="islemDurum">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-red" data-bs-dismiss="modal">Kapat</button>
@@ -128,68 +128,181 @@ require "header.php";
 
 
 <script>
+    var pasifVerileriGetir = function() {
+        $.getJSON("finansIslemListele.php", function(data) {
+            finansIslemTemizle();
+            data.forEach(function(islem, index) {
+                if (islem.islemMiktari == 0) {
+                    let islemTuruDegistir = islem.islemTuru == 1 ? "Gelir" : "Gider"
+                    let satir = $("<tr>")
+                    let hucre2 = $("<td>").text(islem.id)
+                    let hucre3 = $("<td>").text(islem.islemAdi)
+                    let hucre4 = $("<td>").text(islem.islemKategori)
+                    let hucre5 = $("<td>").text(islemTuruDegistir)
+                    let hucre6 = $("<td>").text(islem.islemMiktari)
+                    let hucre7 = $("<td>").text(islem.islemTarihi)
+                    let hucre8 = $("<td align='center'><a href='javascript:void(0)' onclick ='finansIslemDuzenle(" + islem.id + ")'><i class='far fa-edit'></i></a></td>")
 
-    var ayVerileri = function(ayVerisi){
+
+                    satir.append(hucre2)
+                    satir.append(hucre3)
+                    satir.append(hucre4)
+                    satir.append(hucre5)
+                    satir.append(hucre6)
+                    satir.append(hucre7)
+                    satir.append(hucre8)
+
+                    $("#finansIslemTablosu").append(satir)
+                }
+            })
+        })
+    }
+    var aktifVerileriGetir = function() {
+        $.getJSON("finansIslemListele.php", function(data) {
+            finansIslemTemizle();
+            data.forEach(function(islem, index) {
+                if (islem.islemMiktari != 0) {
+                    let islemTuruDegistir = islem.islemTuru == 1 ? "Gelir" : "Gider"
+                    let satir = $("<tr>")
+                    let hucre2 = $("<td>").text(islem.id)
+                    let hucre3 = $("<td>").text(islem.islemAdi)
+                    let hucre4 = $("<td>").text(islem.islemKategori)
+                    let hucre5 = $("<td>").text(islemTuruDegistir)
+                    let hucre6 = $("<td>").text(islem.islemMiktari)
+                    let hucre7 = $("<td>").text(islem.islemTarihi)
+                    let hucre8 = $("<td align='center'><a href='javascript:void(0)' onclick ='finansIslemDuzenle(" + islem.id + ")'><i class='far fa-edit'></i></a></td>")
+
+
+                    satir.append(hucre2)
+                    satir.append(hucre3)
+                    satir.append(hucre4)
+                    satir.append(hucre5)
+                    satir.append(hucre6)
+                    satir.append(hucre7)
+                    satir.append(hucre8)
+
+                    $("#finansIslemTablosu").append(satir)
+                }
+            })
+        })
+    }
+    var ayVerileri = function(ayVerisi) {
+        ayVerisi2 = ayVerisi >= 10 ? ayVerisi : "0" + ayVerisi;
+        document.getElementById("dateCheckboxKontrol").value = "2021-" + ayVerisi2 + "-01";
         $.ajax({
-            type:"POST",
-            url:"finansIslemListeleAyVerileri.php",
-            data:({
-                "ayVerisi" : ayVerisi
+            type: "POST",
+            url: "finansIslemListeleAyVerileri.php",
+            data: ({
+                "ayVerisi": ayVerisi
             }),
-            success: function(data){
+            success: function(data) {
                 finansIslemTemizle();
                 data = JSON.parse(data);
 
-            data.forEach(function(islem, index) {
-                let islemTuruDegistir = islem.islemTuru == 1 ?"Gelir":"Gider"
+                var urunGelir = 0;
+                var digerGelir = 0;
+                var urunGider = 0;
+                var hizmetGider = 0;
+                var personelGider = 0;
+                var digerGider = 0;
 
-                let satir = $("<tr>")
-                let hucre2 = $("<td>").text(islem.id)
-                let hucre3 = $("<td>").text(islem.islemAdi)
-                let hucre4 = $("<td>").text(islem.islemKategori)
-                let hucre5 = $("<td>").text(islemTuruDegistir)
-                let hucre6 = $("<td>").text(islem.islemMiktari)
-                let hucre7 = $("<td>").text(islem.islemTarihi)
-                let hucre8 = $("<td align='center'><a href='javascript:void(0)' onclick ='finansIslemDuzenle(" + islem.id + ")'><i class='far fa-edit'></i></a></td>")
+                removeData(birinciChart);
+
+                data.forEach(function(islem, index) {
+                    let islemTuruDegistir = islem.islemTuru == 1 ? "Gelir" : "Gider"
+
+                    let satir = $("<tr>")
+                    let hucre2 = $("<td>").text(islem.id)
+                    let hucre3 = $("<td>").text(islem.islemAdi)
+                    let hucre4 = $("<td>").text(islem.islemKategori)
+                    let hucre5 = $("<td>").text(islemTuruDegistir)
+                    let hucre6 = $("<td>").text(islem.islemMiktari)
+                    let hucre7 = $("<td>").text(islem.islemTarihi)
+                    let hucre8 = $("<td align='center'><a href='javascript:void(0)' onclick ='finansIslemDuzenle(" + islem.id + ")'><i class='far fa-edit'></i></a></td>")
 
 
-                satir.append(hucre2)
-                satir.append(hucre3)
-                satir.append(hucre4)
-                satir.append(hucre5)
-                satir.append(hucre6)
-                satir.append(hucre7)
-                satir.append(hucre8)
+                    satir.append(hucre2)
+                    satir.append(hucre3)
+                    satir.append(hucre4)
+                    satir.append(hucre5)
+                    satir.append(hucre6)
+                    satir.append(hucre7)
+                    satir.append(hucre8)
 
-                $("#finansIslemTablosu").append(satir)
+                    $("#finansIslemTablosu").append(satir);
 
-            })
-                console.log(data);
+                    if (islem.islemKategori == "Urun" && islem.islemTuru == 1) {
+                        urunGelir += parseInt(islem.islemMiktari);
+                        addData(birinciChart, islem.islemKategori + " " + "Gelir", urunGelir);
+                    } else if (islem.islemKategori == "Diger" && islem.islemTuru == 1) {
+                        digerGelir += parseInt(islem.islemMiktari);
+                        addData(birinciChart, islem.islemKategori + " " + "Gelir", digerGelir);
+                    } else if (islem.islemKategori == "Urun" && islem.islemTuru == 0) {
+                        urunGider += parseInt(islem.islemMiktari);
+                        addData(birinciChart, islem.islemKategori + " " + "Gider", urunGider);
+                    } else if (islem.islemKategori == "Hizmet" && islem.islemTuru == 0) {
+                        hizmetGider += parseInt(islem.islemMiktari);
+                        addData(birinciChart, islem.islemKategori + " " + "Gider", hizmetGider);
+                    } else if (islem.islemKategori == "Personel" && islem.islemTuru == 0) {
+                        personelGider += parseInt(islem.islemMiktari);
+                        addData(birinciChart, islem.islemKategori + " " + "Gider", personelGider);
+                    } else if (islem.islemKategori == "Diger" && islem.islemTuru == 0) {
+                        digerGider += parseInt(islem.islemMiktari);
+                        addData(birinciChart, islem.islemKategori + " " + "Gider", digerGider);
+                    }
+                })
+
             }
         })
 
     }
 
-    var finansIslemDuzenleModal = function(){
+    function removeData(chart) {
+        chart.data.labels.pop();
+        chart.data.labels.pop();
+        chart.data.labels.pop();
+        chart.data.labels.pop();
+        chart.data.labels.pop();
+        chart.data.labels.pop();
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+            dataset.data.pop();
+            dataset.data.pop();
+            dataset.data.pop();
+            dataset.data.pop();
+            dataset.data.pop();
+        });
+        chart.update();
+    }
+
+    function addData(chart, label, data) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+        });
+        chart.update();
+    }
+    var finansIslemDuzenleModal = function() {
         var islemId = $("#islemId").val();
         var islemAdi = $("#islemAdiText").val();
         var islemKategori = $("#islemKategorisiText").val();
         var islemTuru = $("#islemTuruText").val();
         var islemMiktari = $("#islemMiktariText").val();
         var islemTarihi = $("#islemTarihiText").val();
+        removeData(birinciChart);
 
         $.ajax({
-            type:"POST",
+            type: "POST",
             url: "finansIslemUpdate.php",
             data: {
-                "islemId" : islemId,
-                "islemAdi" : islemAdi,
-                "islemKategori" : islemKategori,
-                "islemTuru" : islemTuru,
-                "islemMiktari" : islemMiktari,
-                "islemTarihi" : islemTarihi
+                "islemId": islemId,
+                "islemAdi": islemAdi,
+                "islemKategori": islemKategori,
+                "islemTuru": islemTuru,
+                "islemMiktari": islemMiktari,
+                "islemTarihi": islemTarihi
             },
-            success: function(){
+            success: function() {
                 finansIslemTemizle();
                 finansIslemListele();
                 $("#finansIslemDuzenleModalCenter").modal("hide");
@@ -207,7 +320,7 @@ require "header.php";
                 "islemId": islemId
             },
             success: function(data) {
-                let islemTuruDegistir = islem.islemTuru == 1 ?"Gelir":"Gider"
+                let islemTuruDegistir = data.islemTuru == 1 ? "Gelir" : "Gider"
                 data = JSON.parse(data);
                 $('#finansIslemDuzenleModalCenter').modal('show');
                 $("#islemId").val(data.islemId);
@@ -220,9 +333,11 @@ require "header.php";
         })
 
     }
-    var finansIslemHepsi = function(){
+    var finansIslemHepsi = function() {
         finansIslemTemizle();
         finansIslemListele();
+        removeData(birinciChart);
+        addData(birinciChart, "Donut Chart'ı görmek için lütfen bir aya tıklayın.", 1)
     }
 
     var finansIslemTemizle = function() {
@@ -232,7 +347,7 @@ require "header.php";
     var finansIslemListele = function() {
         $.getJSON("finansIslemListele.php", function(data) {
             data.forEach(function(islem, index) {
-                let islemTuruDegistir = islem.islemTuru == 1 ?"Gelir":"Gider"
+                let islemTuruDegistir = islem.islemTuru == 1 ? "Gelir" : "Gider"
                 let satir = $("<tr>")
                 let hucre2 = $("<td>").text(islem.id)
                 let hucre3 = $("<td>").text(islem.islemAdi)
@@ -288,6 +403,8 @@ require "header.php";
             islemAdi = $("#islemKategoriSelect").val();
         }
         var islemMiktar = $("#islemMiktar").val();
+        removeData(birinciChart);
+        addData(birinciChart, "Donut Chart'ı görmek için lütfen bir aya tıklayın.", 1);
         if (!document.getElementById("bugunemiAit").checked) {
             var islemTarih = $("#dateCheckboxKontrol").val();
         } else {
@@ -334,19 +451,17 @@ require "header.php";
         config = {
             type: 'doughnut',
             data: {
-                labels: ['Urun Gelir', 'Hizmet Gelir', 'Personel Gelir', 'Diğer Gelir', 'Urun Gider', 'Hizmet Gider', 'Personel Gider', 'Diğer Gider', ],
+                labels: ["Donut Chart'ı görmek için lütfen bir aya tıklayın."],
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 5, 10, 20, 12, 13],
+                    data: [1],
                     backgroundColor: [
                         'rgba(255, 99, 132)',
                         'rgba(54, 162, 235)',
                         'rgba(255, 206, 86)',
                         'rgba(75, 192, 192)',
                         'rgba(255, 99, 132)',
-                        'rgba(54, 162, 235)',
-                        'rgba(255, 206, 86)',
-                        'rgba(75, 192, 192)'
+                        'rgba(54, 162, 235)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132)',
@@ -354,11 +469,9 @@ require "header.php";
                         'rgba(255, 206, 86)',
                         'rgba(75, 192, 192)',
                         'rgba(255, 99, 132)',
-                        'rgba(54, 162, 235)',
-                        'rgba(255, 206, 86)',
-                        'rgba(75, 192, 192)'
+                        'rgba(54, 162, 235)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             },
             options: {}
@@ -368,35 +481,65 @@ require "header.php";
     birinciChart.canvas.height = 400;
     birinciChart.canvas.width = 400;
 
-    var ikinciChart = document.getElementById("birOncekiAyaGoreChart").getContext('2d');
-
-    var ikinciChart = new Chart(ikinciChart, {
-        type: 'bar',
+    $.ajax({
+        type: "POST",
+        url: "ikinciChartVeri.php",
         data: {
-            labels: [moment().subtract(1, 'months').format('MMMM'), moment().format('MMMM')],
-            options: {
-                responsive: true,
-            },
-            datasets: [{
-                    label: "gider",
-                    data: [100, 70],
-                    backgroundColor: [
-                        'rgba(255, 99, 132)',
-                        'rgba(255, 99, 132)',
-                    ],
-                    borderColor: [
-                        '#000000'
-                    ]
-                },
-                {
-                    label: "gelir",
-                    data: [100, 50],
-                    backgroundColor: [
-                        'rgba(54, 162, 235)',
-                        'rgba(54,162, 235)',
+            "birOncekiAy": moment().subtract(1, 'months').format('M'),
+            "buAy": moment().format('M')
+        },
+        success: function(data) {
+            data = JSON.parse(data);
+
+            var giderleriTopla = 0;
+            var gelirleriTopla = 0;
+            data[0].forEach((element) => {
+                if (element.islemTuru == 1) {
+                    gelirleriTopla += parseInt(element.islemMiktari);
+                } else {
+                    giderleriTopla += parseInt(element.islemMiktari);
+                }
+            })
+            var giderleriTopla2 = 0;
+            var gelirleriTopla2 = 0;
+            data[1].forEach((element) => {
+                if (element.islemTuru == 1) {
+                    gelirleriTopla2 += parseInt(element.islemMiktari);
+                } else {
+                    giderleriTopla2 += parseInt(element.islemMiktari);
+                }
+            })
+
+            var ikinciChart = document.getElementById("birOncekiAyaGoreChart").getContext('2d');
+            var ikinciChart = new Chart(ikinciChart, {
+                type: 'bar',
+                data: {
+                    labels: [moment().subtract(1, 'months').format('MMMM'), moment().format('MMMM')],
+                    options: {
+                        responsive: true,
+                    },
+                    datasets: [{
+                            label: "Giderler",
+                            data: [giderleriTopla, giderleriTopla2],
+                            backgroundColor: [
+                                'rgba(255, 99, 132)',
+                                'rgba(255, 99, 132)',
+                            ],
+                            borderColor: [
+                                '#000000'
+                            ]
+                        },
+                        {
+                            label: "Gelirler",
+                            data: [gelirleriTopla, gelirleriTopla2],
+                            backgroundColor: [
+                                'rgba(54, 162, 235)',
+                                'rgba(54,162, 235)',
+                            ]
+                        }
                     ]
                 }
-            ]
+            });
         }
-    });
+    })
 </script>

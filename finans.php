@@ -51,6 +51,7 @@ require "header.php";
             <button style="position:absolute; margin:10px 0px 0px 10px;" onclick="finansIslemHepsi()" class="btn btn-purple" ;>Bütün Verileri Getir</button>
             <button style="position:absolute; margin:55px 0px 0px 10px;" onclick="pasifVerileriGetir()" class="btn btn-purple" ;>Pasif Verileri Getir</button>
             <button style="position:absolute; margin:100px 0px 0px 10px;" onclick="aktifVerileriGetir()" class="btn btn-purple" ;>Aktif Verileri Getir</button>
+            <button style="position:absolute; margin:250px 0px 0px 10px;" onclick="document.location.reload(true)" class="btn btn-purple" ;>Gelir Gider Tablosunu Yenile</button>
 
         </div>
 
@@ -130,6 +131,7 @@ require "header.php";
 <script>
     var pasifVerileriGetir = function() {
         $.getJSON("finansIslemListele.php", function(data) {
+            removeData(birinciChart);
             finansIslemTemizle();
             data.forEach(function(islem, index) {
                 if (islem.islemMiktari == 0) {
@@ -159,6 +161,7 @@ require "header.php";
     }
     var aktifVerileriGetir = function() {
         $.getJSON("finansIslemListele.php", function(data) {
+            removeData(birinciChart);
             finansIslemTemizle();
             data.forEach(function(islem, index) {
                 if (islem.islemMiktari != 0) {

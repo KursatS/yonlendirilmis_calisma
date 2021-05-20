@@ -185,11 +185,13 @@ a {
 .personelIsımler {
   display: flex;
   flex-direction: column;
+  margin-left: 150px;
 }
 
 .personelGiris {
   display: flex;
   flex-direction: column;
+  margin-top: 50px;
 }
 
 .personelEkleKaydet {
@@ -405,17 +407,17 @@ a {
   margin-left: 310px;
 }
 
-.sonAyinGelirGideri, .birOncekiAyaGore{
+.sonAyinGelirGideri,
+.birOncekiAyaGore {
   background-color: rgb(31, 0, 51);
-  height: calc((100vh - 230px)/2);
+  height: calc((100vh - 230px) / 2);
   width: 400px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
-
 }
 
-.finansIslemContainer{
+.finansIslemContainer {
   height: calc(100vh - 220px);
   width: 1148px;
   background-color: white;
@@ -424,7 +426,7 @@ a {
   border-radius: 10px;
 }
 
-.ayButonlari{
+.ayButonlari {
   display: flex;
   align-items: center;
   margin-top: 10px;
@@ -433,7 +435,7 @@ a {
   height: 70px;
 }
 
-.finansIslemGirdi{
+.finansIslemGirdi {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -441,35 +443,41 @@ a {
   margin-top: 10px;
 }
 
-.finansIslemGirdi > *{
+.finansIslemGirdi > * {
   margin-top: 10px;
 }
 
-.islemKategoriSelect{
+.islemKategoriSelect {
   width: 175px;
 }
 
-.finansKaydetButton{
-  position: absolute; 
+.finansKaydetButton {
+  position: absolute;
   right: 330px;
   bottom: 100px;
 }
 
-
-.finansIslemBorder{
+.finansIslemBorder {
   border: 2px solid black;
   height: 350px;
 }
 
-.scrollable{
+.scrollable {
   height: 350px !important;
   overflow: scroll !important;
   overflow-x: hidden !important;
 }
 
-.islemFormGoruntu{
+.islemFormGoruntu {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.chart-wrapper {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  margin-left: 25px;
 }

@@ -447,8 +447,6 @@ require "header.php";
         }
     });
 
-
-    moment.locale('tr');
     var birinciChart = new Chart(
         document.getElementById('sonAyinGelirGideriChart'),
         config = {

@@ -39,16 +39,16 @@ $_SESSION["personel"] = $satir;
             </form>
             <div class="personelForm">
                 <div style="" class="personelIsımler">
-                    <input id="ad" type="text" name="ad" placeholder="Ad" value="<?php echo $satir["ad"] ?>">
-                    <input id="soyad" type="text" name="soyad" placeholder="Soyad" value="<?php echo $satir["soyad"] ?>">
+                    <input id="ad" type="text" name="ad" placeholder="Ad" readonly value="<?php echo $satir["ad"] ?>">
+                    <input id="soyad" type="text" name="soyad" placeholder="Soyad" readonly value="<?php echo $satir["soyad"] ?>">
                     <input id="email" type="text" name="email" placeholder="Email" value="<?php echo $satir["email"] ?>">
                     <input id="telefon" type="text" name="telefon" placeholder="Telefon" value="<?php echo $satir["telefon"] ?>">
                 </div>
                 <div class="personelGiris">
                     <input id="personel_ad" type="text" name="personel_adi" placeholder="Personel Giriş Adı" readonly value="<?php echo $satir["personel_adi"] ?>">
                     <input id="eskiSifre" type="text" name="eskiSifre" placeholder="Eski Şifre">
-                    <input id="personel_sifre" type="text" name="personel_sifre" placeholder="Personel Giriş Şifre">
-                    <input id="personel_sifre2" type="text" name="personel_sifre2" placeholder="Şifre Tekrar">
+                    <input id="personel_sifre" type="password" name="personel_sifre" placeholder="Personel Giriş Şifre">
+                    <input id="personel_sifre2" type="password" name="personel_sifre2" placeholder="Şifre Tekrar">
                     <button class="personelEkleKaydet btn-purple" onclick="profilDuzenle()">Kaydet</button>
                 </div>
             </div>
@@ -109,6 +109,10 @@ $_SESSION["personel"] = $satir;
                         confirmButtonText: 'Tamam',
                         confirmButtonColor: "#800080"
                     })
+                    setTimeout(function() {
+                        window.location.replace("giris.php");
+                    }, 1500);
+
                 }
             })
         } else {
@@ -119,6 +123,7 @@ $_SESSION["personel"] = $satir;
                 confirmButtonColor: "#800080",
             })
         }
+
     }
 </script>
 

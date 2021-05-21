@@ -3,16 +3,7 @@ require "dbbaglanti.php";
 if (!isset($_SESSION["personel"])) {
     header("location:giris.php");
 }
-$ac = fopen("girisLoglari.txt","a");
-$ad = $_SESSION["personel"]["ad"];
-$zaman = strval(date('d.m.Y H:i:s'));
 
-$yaz = fwrite($ac,$_SESSION["personel"]["id"]." -- ");
-$yaz = fwrite($ac,$ad." -- ");
-$yaz = fwrite($ac,$_SESSION["personel"]["soyad"]." -- ");
-$yaz = fwrite($ac,$_SESSION["personel"]["telefon"]." -- ");
-$yaz = fwrite($ac,$zaman."\n");
-fclose($ac);
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -30,6 +21,7 @@ fclose($ac);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="http://cdn.sobekrepository.org/includes/jquery-rotate/2.2/jquery-rotate.min.js"></script>
 </head>
 
 <style>
@@ -93,10 +85,10 @@ fclose($ac);
                 <li><a id="personeller" class="" href="personeller.php"><i class="fas fa-users fa-2x"></i> &nbsp;&nbsp;Personeller</a></li>
                 <li><a id="takvim" class="" href="takvim.php"><i class="far fa-calendar-alt fa-2x"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Takvim</a></li>
             <?php endif ?>
-            
+
         </ul>
         <div id="animasyonAyarlar" style="position: absolute; bottom: 20px;">
-            <a id="ayarlarButonu" href="javascript:void(0);" onclick="yukariCikar();">&nbsp;&nbsp;<i class="fas fa-cog fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Ayarlar</a>
+            <a id="ayarlarButonu" href="javascript:void(0);" onclick="yukariCikar();">&nbsp;&nbsp;<i id="ayarlarButonuIcon" class="fas fa-cog fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Ayarlar</a>
         </div>
         <div>
             <a href="profiliDuzenle.php" id="profilDuzenleButonu" style="left:57px; bottom:140px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-id-badge"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profili Düzenle</a>
@@ -106,6 +98,7 @@ fclose($ac);
 
     <script>
         moment.locale('tr');
+
 
         $(document).ready(function() {
             $("#profilDuzenleButonu").hide();

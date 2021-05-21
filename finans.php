@@ -129,6 +129,7 @@ require "header.php";
 
 
 <script>
+    moment.locale("tr");
     var pasifVerileriGetir = function() {
         $.getJSON("finansIslemListele.php", function(data) {
             removeData(birinciChart);

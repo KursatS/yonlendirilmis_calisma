@@ -476,8 +476,15 @@ a {
 }
 
 .chart-wrapper {
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+  margin-left: 25px;
+}
+
+.chart-wrapper2 {
+  width: 350px;
+  height: 350px;
   margin: 0 auto;
   margin-left: 25px;
 }

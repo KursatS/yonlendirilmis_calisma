@@ -91,14 +91,13 @@ if (!isset($_SESSION["personel"])) {
             <a id="ayarlarButonu" href="javascript:void(0);" onclick="yukariCikar();">&nbsp;&nbsp;<i id="ayarlarButonuIcon" class="fas fa-cog fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Ayarlar</a>
         </div>
         <div>
-            <a href="profiliDuzenle.php" id="profilDuzenleButonu" style="left:57px; bottom:140px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-id-badge"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profili Düzenle</a>
-            <a href="giris.php" id="cikisButonu" style="left:57px; bottom:90px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Çıkış</a>
+            <a href="profiliDuzenle.php" id="profilDuzenleButonu" style="display:none; left:57px; bottom:140px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-id-badge"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profili Düzenle</a>
+            <a href="giris.php" id="cikisButonu" style="display:none; left:57px; bottom:90px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Çıkış</a>
         </div>
     </aside>
 
     <script>
         moment.locale('tr');
-
 
         $(document).ready(function() {
             $("#profilDuzenleButonu").hide();
@@ -114,6 +113,7 @@ if (!isset($_SESSION["personel"])) {
                 bottom: '200px'
             });
             document.getElementById("ayarlarButonu").setAttribute("onClick", "javascript: asagiIndir()");
+            document.getElementById("ayarlarButonuIcon").setAttribute("class", "fas fa-cog fa-2x fa-spin");
             $("#profilDuzenleButonu").fadeIn(1500);
             $("#cikisButonu").fadeIn(1500);
         }
@@ -123,6 +123,7 @@ if (!isset($_SESSION["personel"])) {
                 bottom: '20px'
             });
             document.getElementById("ayarlarButonu").setAttribute("onClick", "javascript: yukariCikar()");
+            document.getElementById("ayarlarButonuIcon").setAttribute("class", "fas fa-cog fa-2x");
             $("#profilDuzenleButonu").fadeOut(100);
             $("#cikisButonu").fadeOut(100);
         }

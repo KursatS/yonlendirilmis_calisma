@@ -1,15 +1,19 @@
 <?php
 require "header.php";
-$ac = fopen("girisLoglari.txt", "a");
-$ad = $_SESSION["personel"]["ad"];
-$zaman = strval(date('d.m.Y H:i:s'));
 
-$yaz = fwrite($ac, $_SESSION["personel"]["id"] . " -- ");
-$yaz = fwrite($ac, $ad . " -- ");
-$yaz = fwrite($ac, $_SESSION["personel"]["soyad"] . " -- ");
-$yaz = fwrite($ac, $_SESSION["personel"]["telefon"] . " -- ");
-$yaz = fwrite($ac, $zaman . "\n");
-fclose($ac);
+
+if ($_SESSION["personel"]["id"]) {
+    $ac = fopen("girisLoglari.txt", "a");
+    $ad = $_SESSION["personel"]["ad"];
+    $zaman = strval(date('d.m.Y H:i:s'));
+
+    $yaz = fwrite($ac, $_SESSION["personel"]["id"] . " -- ");
+    $yaz = fwrite($ac, $ad . " -- ");
+    $yaz = fwrite($ac, $_SESSION["personel"]["soyad"] . " -- ");
+    $yaz = fwrite($ac, $_SESSION["personel"]["telefon"] . " -- ");
+    $yaz = fwrite($ac, $zaman . "\n");
+    fclose($ac);
+}
 ?>
 
 <head>
@@ -24,7 +28,7 @@ fclose($ac);
         <p style="position: absolute; right:130px; top:220px; font-size:25px">Az Kalan Ürünler</p>
         <div>
             <label style="position: absolute; right:225px; top:330px;" for="">Ürün Sayısını Girin</label>
-            <input style="position: absolute; right:250px; top:370px; width:70px;" id="urunSayisi" class="form-control" type="text">
+            <input style="position: absolute; right:250px; top:370px; width:70px;" id="urunSayisi" class="form-control" type="number">
             <button style="position: absolute; right:130px; top:370px;" onclick="azKalanUrunleriGoster()" class="btn btn-purple">Göster</button>
         </div>
     </div>
@@ -135,7 +139,7 @@ if (isset($_POST["notlarKaydet"])) {
 
     );
 
-    birinciChart.options.plugins.legend.position = 'right';
+    birinciChart.options.plugins.legend.display = false;
     birinciChart.update();
 </script>
 

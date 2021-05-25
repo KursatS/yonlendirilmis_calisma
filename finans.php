@@ -10,7 +10,7 @@ require "header.php";
 
 <div class="finansContainer">
     <div>
-        <div class="sonAyinGelirGideri"><canvas style="margin-left: 30px !important;" id="sonAyinGelirGideriChart"></canvas></div>
+        <div class="sonAyinGelirGideri"><canvas class="chart-wrapper2" id="sonAyinGelirGideriChart"></canvas></div>
         <div class="birOncekiAyaGore" style="display: flex; flex-direction:column; justify-content:center;"><canvas id="birOncekiAyaGoreChart"></div>
     </div>
     <div class="finansIslemContainer">

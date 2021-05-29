@@ -34,7 +34,7 @@ if ($_SESSION["personel"]["id"]) {
         </div>
         <div class="kutucuklar yazi">
             <p style="position: absolute; right: 320px; top:220px; font-size:25px;">Giriş Logları</p>
-            <textarea style="resize: none; width: 100%; height: 90%; font-size: 25px; margin-top:30px;" name="" id="" cols="30" rows="10">
+            <textarea readonly style="resize: none; width: 100%; height: 90%; font-size: 25px; margin-top:30px;" name="" id="" cols="30" rows="10">
     <?php
     $oku = fopen("girisLoglari.txt", "r");
     while (!feof($oku)) {

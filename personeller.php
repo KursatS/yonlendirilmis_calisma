@@ -33,38 +33,109 @@ if (isset($_GET["durum"])) {
     <table class="table table-bordered table-striped mb-0 personellerTablo">
       <thead class="thead-dark">
         <tr>
-          <th scope="col" width="100px">ID</th>
-          <th scope="col">İsim</th>
-          <th scope="col">Soyisim</th>
-          <th scope="col">Telefon Numarası</th>
-          <th scope="col">Mail Adresi</th>
-          <th scope="col">Yetki</th>
-          <th scope="col">Durum</th>
-          <th scope="col">Düzenle</th>
+          <?php if ($_SESSION["personel"]["yetki"] == "D") : ?>
+            <th scope="col" width="100px">ID</th>
+            <th scope="col">İsim</th>
+            <th scope="col">Soyisim</th>
+            <th scope="col">Telefon Numarası</th>
+            <th scope="col">Mail Adresi</th>
+            <th scope="col">Yetki</th>
+            <th scope="col">Durum</th>
+          <?php endif ?>
+          <?php if ($_SESSION["personel"]["yetki"] == "C") : ?>
+            <th scope="col" width="100px">ID</th>
+            <th scope="col">İsim</th>
+            <th scope="col">Soyisim</th>
+            <th scope="col">Telefon Numarası</th>
+            <th scope="col">Mail Adresi</th>
+            <th scope="col">Yetki</th>
+            <th scope="col">Durum</th>
+          <?php endif ?>
+          <?php if ($_SESSION["personel"]["yetki"] == "B") : ?>
+            <th scope="col" width="100px">ID</th>
+            <th scope="col">İsim</th>
+            <th scope="col">Soyisim</th>
+            <th scope="col">Telefon Numarası</th>
+            <th scope="col">Mail Adresi</th>
+            <th scope="col">Yetki</th>
+            <th scope="col">Durum</th>
+            <th scope="col">Düzenle</th>
+          <?php endif ?>
+          <?php if ($_SESSION["personel"]["yetki"] == "A") : ?>
+            <th scope="col" width="100px">ID</th>
+            <th scope="col">İsim</th>
+            <th scope="col">Soyisim</th>
+            <th scope="col">Telefon Numarası</th>
+            <th scope="col">Mail Adresi</th>
+            <th scope="col">Yetki</th>
+            <th scope="col">Durum</th>
+            <th scope="col">Düzenle</th>
+          <?php endif ?>
         </tr>
       </thead>
       <tbody>
-        <?php
-        while ($satir = $sorgu->fetch(PDO::FETCH_ASSOC)) : ?>
-          <tr>
-            <th scope="row"><?php echo $satir["id"] ?></th>
-            <td><?php echo $satir["ad"] ?></td>
-            <td><?php echo $satir["soyad"] ?></td>
-            <td><?php echo $satir["telefon"] ?></td>
-            <td><?php echo $satir["email"] ?></td>
-            <td><?php echo $satir["yetki"] ?></td>
-            <td><?php echo $satir["durum"] ?></td>
-            <td align="center"><a href="personelDuzenle.php?id=<?php echo $satir["id"] ?>"><i class="far fa-edit"></i></a></td>
-          </tr>
-        <?php endwhile; ?>
+        <?php if ($_SESSION["personel"]["yetki"] == "A") : ?>
+          <?php
+          while ($satir = $sorgu->fetch(PDO::FETCH_ASSOC)) : ?>
+            <tr>
+              <th scope="row"><?php echo $satir["id"] ?></th>
+              <td><?php echo $satir["ad"] ?></td>
+              <td><?php echo $satir["soyad"] ?></td>
+              <td><?php echo $satir["telefon"] ?></td>
+              <td><?php echo $satir["email"] ?></td>
+              <td><?php echo $satir["yetki"] ?></td>
+              <td><?php echo $satir["durum"] ?></td>
+              <td align="center"><a href="personelDuzenle.php?id=<?php echo $satir["id"] ?>"><i class="far fa-edit"></i></a></td>
+            </tr>
+          <?php endwhile; ?>
+        <?php endif ?>
+        <?php if ($_SESSION["personel"]["yetki"] == "B") : ?>
+          <?php
+          while ($satir = $sorgu->fetch(PDO::FETCH_ASSOC)) : ?>
+            <tr>
+              <th scope="row"><?php echo $satir["id"] ?></th>
+              <td><?php echo $satir["ad"] ?></td>
+              <td><?php echo $satir["soyad"] ?></td>
+              <td><?php echo $satir["telefon"] ?></td>
+              <td><?php echo $satir["email"] ?></td>
+              <td><?php echo $satir["yetki"] ?></td>
+              <td><?php echo $satir["durum"] ?></td>
+              <td align="center"><a href="personelDuzenle.php?id=<?php echo $satir["id"] ?>"><i class="far fa-edit"></i></a></td>
+            </tr>
+          <?php endwhile; ?>
+        <?php endif ?>
+        <?php if ($_SESSION["personel"]["yetki"] == "C") : ?>
+          <?php
+          while ($satir = $sorgu->fetch(PDO::FETCH_ASSOC)) : ?>
+            <tr>
+              <th scope="row"><?php echo $satir["id"] ?></th>
+              <td><?php echo $satir["ad"] ?></td>
+              <td><?php echo $satir["soyad"] ?></td>
+              <td><?php echo $satir["telefon"] ?></td>
+              <td><?php echo $satir["email"] ?></td>
+              <td><?php echo $satir["yetki"] ?></td>
+              <td><?php echo $satir["durum"] ?></td>
+            </tr>
+          <?php endwhile; ?>
+        <?php endif ?>
+
       </tbody>
     </table>
 
   </div>
-  <div class="personelEkleButton">
-    <button type="button" class="btn btn-light"><a href="<?= $link ?>"><?= $isim ?></a></button>&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-light"><a href="personelEkle.php">Personel Ekle</a></button>
-  </div>
+  <?php if ($_SESSION["personel"]["yetki"] == "A") : ?>
+    <div class="personelEkleButton">
+      <button type="button" class="btn btn-light"><a href="<?= $link ?>"><?= $isim ?></a></button>&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-light"><a href="personelEkle.php">Personel Ekle</a></button>
+    </div>
+  <?php endif ?>
+  <?php if ($_SESSION["personel"]["yetki"] == "B") : ?>
+    <div class="personelEkleButton">
+      <button type="button" class="btn btn-light"><a href="<?= $link ?>"><?= $isim ?></a></button>&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-light"><a href="personelEkle.php">Personel Ekle</a></button>
+    </div>
+  <?php endif ?>
+
 </div>
 
 

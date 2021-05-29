@@ -92,7 +92,7 @@ if (!isset($_SESSION["personel"])) {
         </div>
         <div>
             <a href="profiliDuzenle.php" id="profilDuzenleButonu" style="display:none; left:57px; bottom:140px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-id-badge"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profili Düzenle</a>
-            <a href="giris.php" id="cikisButonu" style="display:none; left:57px; bottom:90px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Çıkış</a>
+            <a href="cikis.php" id="cikisButonu" style="display:none; left:57px; bottom:90px; position:absolute; font-size:20px;">&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Çıkış</a>
         </div>
     </aside>
 

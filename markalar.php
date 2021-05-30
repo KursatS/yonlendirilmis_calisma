@@ -8,27 +8,29 @@ if (isset($_GET["durum"])) {
   $sorgu->execute();
   $link = "markalar.php";
   $isim = "Aktif Markaları Göster";
-} elseif (isset($_GET["aramaButon"])) {
-  $ara = '%' . $_GET["aramaButon"] . '%';
-  $sorgu = $dbbaglanti->prepare("SELECT * FROM markalar WHERE markaAdi LIKE ? OR markaId LIKE ?");
-  $sorgu->execute(array(
-    $ara, $ara
-  ));
-} else {
+}else {
   $sorgu = $dbbaglanti->prepare("SELECT * FROM markalar WHERE markaDurum=? ORDER BY markaId");
   $sorgu->execute(array(
     "A"
   ));
 }
 ?>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <div class="personelListe">
   <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <div class="aramaKutucugu">
-      <form action="" method="GET"><input type="text" name="aramaButon" id=""><button class="aramaKutucuguButon" type="submit"><i class="fas fa-search"></i></button></form>
+    <div style="margin:10px 0 10px 10px; display:flex; align-items:center;">
+      <input style="width: 250px;" placeholder="ID'ye göre arama" type="text" class="form-control" id="aramaText">
+      <button class="btn btn-purple" id="aramaButonu">
+        <i class="fas fa-search">
+        </i>
+      </button>
+      <select id="aramaTextFiltre" style="width: 100px; margin: 0 10px 0 10px;" class="form-control">
+        <option value="0">ID</option>
+        <option value="1">İsim</option>
+      </select>
     </div>
-    <table class="table table-bordered table-striped mb-0 personellerTablo">
+    <table id="markaTablosu" class="table table-bordered table-striped mb-0 personellerTablo">
       <thead class="thead-dark">
         <tr>
           <th scope="col" width="100px">ID</th>
@@ -101,12 +103,14 @@ if (isset($_GET["durum"])) {
 </div>
 <?php
 if (isset($_POST["markaEkleButton"])) {
-  $sorgu = $dbbaglanti->prepare("INSERT INTO markalar SET markaAdi = ?");
-  $s = $sorgu->execute(array(
-    $_POST["markaAdi"]
-  ));
-  if ($s) {
-    header("location:markalar.php");
+  if (strlen($_POST["markaAdi"]) >= 1) {
+    $sorgu = $dbbaglanti->prepare("INSERT INTO markalar SET markaAdi = ?");
+    $s = $sorgu->execute(array(
+      $_POST["markaAdi"]
+    ));
+    if ($s) {
+      header("location:markalar.php");
+    }
   }
 }
 ?>
@@ -127,8 +131,63 @@ if (isset($_POST["markaDegistirButon"])) {
 }
 
 ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
+  $("#aramaTextFiltre").change(function() {
+    var armt = $("#aramaTextFiltre").val();
+    if (armt == "0") {
+      $("#aramaText").attr("placeholder", "IDye göre arama");
+    } else if (armt == "1") {
+      $("#aramaText").attr("placeholder", "İsime göre arama");
+    }
+
+    aramaButonu(armt);
+
+  });
+
+
+  var urunStokTemizle = function() {
+    $('#markaTablosu tbody').empty();
+  }
+
+
+  var aramaButonu = $("#aramaButonu").click(function() {
+    var armt = $("#aramaTextFiltre").val();
+    var aramaText = $("#aramaText").val();
+    urunStokTemizle();
+    $.ajax({
+      url: "markaListeleme.php",
+      type: "POST",
+      data: {
+        'armt': armt,
+        'aramaText': aramaText
+      },
+      success: function(data) {
+        data = JSON.parse(data);
+
+        data.forEach(function(islem, index) {
+          let satir = $("<tr>")
+          let hucre2 = $("<td>").text(islem.markaId)
+          let hucre3 = $("<td>").text(islem.markaAdi)
+          let hucre4 = $("<td>").text(islem.markaDurum)
+          let hucre5 = $("<td align='center'><a data-markaadi='"+ islem.markaAdi +"' data-markadurum='"+ islem.markaDurum +"' data-bs-toggle='modal' data-bs-target='#markaDuzenleModalCenter' class='modalaData' data-markaid='"+ islem.markaId +"'><i class='far fa-edit'></i></a></td>")
+
+          satir.append(hucre2)
+          satir.append(hucre3)
+          satir.append(hucre4)
+          satir.append(hucre5)
+
+
+          $("#markaTablosu").append(satir)
+        })
+      }
+    })
+
+  });
+
+
+
+
   $(document).ready(function() {
     $('.modalaData').click(function() {
       var markaId = $(this).attr("data-markaid");

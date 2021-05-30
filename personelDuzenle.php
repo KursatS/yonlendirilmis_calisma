@@ -9,8 +9,26 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
 
 <section>
     <div class="personelEkle">
+        <form action="" method="POST" style="margin-left: 100px;" enctype="multipart/form-data">
+            <div class="personelResim">
+                <input style="display: none;" type="file" name="image" id="upload-pp-btn">
+                <label for="upload-pp-btn">
+                    <?php
+                    if (!empty($satir["profil_foto"])) {
+                    ?>
+                        <img style="object-fit: cover; border-radius:10px;" width="200px" height="200px" src="<?php echo  $satir["profil_foto"] ?>">
+                    <?php
+                    } else {
+                    ?>
+                        <i class="fas fa-file-upload fa-10x"></i>
+                    <?php
+                    }
+                    ?>
+                </label>
+                <button name="profilResminiGuncelle" class="btn btn-purple" style="position: absolute; bottom:200px; left:435px;">Profil Resmini Güncelle</button>
+            </div>
+        </form>
         <form action="" method="POST" class="personelForm">
-            <div class="personelResim"><i class="fas fa-file-upload fa-10x"></i></div>
             <div class="personelIsımler">
                 <input type="text" name="ad" placeholder="Ad" value="<?php echo $satir["ad"] ?>">
                 <input type="text" name="soyad" placeholder="Soyad" value="<?php echo $satir["soyad"] ?>">
@@ -43,7 +61,6 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
             </div>
             <div class="personelGiris">
                 <input type="text" name="personel_adi" placeholder="Personel Giriş Adı" value="<?php echo $satir["personel_adi"] ?>">
-                <input type="text" name="personel_sifre" placeholder="Personel Giriş Şifre">
                 <button class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
                 <button class="personelSil btn-red" type="submit" name="personelSilButton"><a href="personelSil.php?id=<?php echo $_GET["id"] ?>">Personeli Sil</a></button>
             </div>
@@ -51,11 +68,31 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
     </div>
 </section>
 <?php
-if (isset($_POST["personelEkleButton"])) {
-    $sorgu = $dbbaglanti->prepare("UPDATE personeller SET ad = ?, soyad = ?, email = ?, telefon = ?, cinsiyet = ?, yetki = ?, personel_adi = ?, personel_sifre = ? WHERE id=?");
-    $sorgu->execute(array(
-        $_POST["ad"], $_POST["soyad"], $_POST["email"], $_POST["telefon"], $_POST["cinsiyet"], $_POST["yetki"], $_POST["personel_adi"], md5($_POST["personel_sifre"]), $_GET["id"]
+if (isset($_POST["profilResminiGuncelle"]) && strlen($_FILES["image"]["name"]) > 0) {
+    unlink($satir["profil_foto"]);
+    $img_path = "profileImgs/" . $_FILES["image"]["name"];
+    $sonuc = move_uploaded_file($_FILES["image"]["tmp_name"], $img_path);
+    $sorgu = $dbbaglanti->prepare("UPDATE personeller SET profil_foto = ? WHERE id=?");
+    $sonuc = $sorgu->execute(array(
+        $img_path, $satir["id"]
     ));
+    $sorgu = $dbbaglanti->prepare("SELECT * FROM personeller WHERE id=?");
+    $sorgu->execute(array(
+        $satir["id"]
+    ));
+    $satir2 = $sorgu->fetch(PDO::FETCH_ASSOC);
+    $satir = $satir2;
+    header("location:personeller.php");
+}
+
+?>
+<?php
+if (isset($_POST["personelEkleButton"])) {
+    $sorgu = $dbbaglanti->prepare("UPDATE personeller SET ad = ?, soyad = ?, email = ?, telefon = ?, cinsiyet = ?, yetki = ?, personel_adi = ?, durum='A' WHERE id=?");
+    $sorgu->execute(array(
+        $_POST["ad"], $_POST["soyad"], $_POST["email"], $_POST["telefon"], $_POST["cinsiyet"], $_POST["yetki"], $_POST["personel_adi"], $_GET["id"]
+    ));
+    header("location:personeller.php");
 }
 ?>
 

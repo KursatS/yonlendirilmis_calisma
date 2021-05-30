@@ -5,7 +5,6 @@ require "header.php"
 <section>
     <div class="personelEkle">
         <form action="" method="POST" class="personelForm">
-            <div class="personelResim"><i class="fas fa-file-upload fa-10x"></i></div>
             <div class="personelIsımler">
                 <input type="text" name="ad" placeholder="Ad">
                 <input type="text" name="soyad" placeholder="Soyad">
@@ -27,6 +26,7 @@ require "header.php"
             <div class="personelGiris">
                 <input type="text" name="personel_adi" placeholder="Personel Giriş Adı">
                 <input type="text" name="personel_sifre" placeholder="Personel Giriş Şifre">
+                <input type="text" name="personel_sifre2" placeholder="Personel Şifre Tekrar">
                 <button class="personelEkleKaydet" type="submit" name="personelEkleButton">Kaydet</button>
             </div>
         </form>
@@ -34,10 +34,14 @@ require "header.php"
 </section>
 <?php
 if (isset($_POST["personelEkleButton"])) {
-    $sorgu = $dbbaglanti->prepare("INSERT INTO personeller SET ad = ?, soyad = ?, email = ?, telefon = ?, cinsiyet = ?, yetki = ?, personel_adi = ?, personel_sifre = ?");
-    $sorgu->execute(array(
-        $_POST["ad"], $_POST["soyad"], $_POST["email"], $_POST["telefon"], $_POST["cinsiyet"], $_POST["yetki"], $_POST["personel_adi"], md5($_POST["personel_sifre"])
-    ));
+    if ($_POST["personel_sifre"] == $_POST["personel_sifre2"]) {
+        $sorgu = $dbbaglanti->prepare("INSERT INTO personeller SET ad = ?, soyad = ?, email = ?, telefon = ?, cinsiyet = ?, yetki = ?, personel_adi = ?, personel_sifre = ?");
+        $sorgu->execute(array(
+            $_POST["ad"], $_POST["soyad"], $_POST["email"], $_POST["telefon"], $_POST["cinsiyet"], $_POST["yetki"], $_POST["personel_adi"], md5($_POST["personel_sifre"])
+        ));
+    }else{
+        
+    }
 }
 ?>
 

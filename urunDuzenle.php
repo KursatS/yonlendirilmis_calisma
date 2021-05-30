@@ -9,8 +9,26 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
 
 <section>
     <div class="personelEkle">
+        <form action="" method="POST" style="margin-left: 100px;" enctype="multipart/form-data">
+            <div class="personelResim">
+                <input style="display: none;" type="file" name="image" id="upload-pp-btn">
+                <label for="upload-pp-btn">
+                    <?php
+                    if (!empty($satir["urun_foto"])) {
+                    ?>
+                        <img style="object-fit: cover; border-radius:10px;" width="200px" height="200px" src="<?php echo  $satir["urun_foto"] ?>">
+                    <?php
+                    } else {
+                    ?>
+                        <i class="fas fa-file-upload fa-10x"></i>
+                    <?php
+                    }
+                    ?>
+                </label>
+                <button name="profilResminiGuncelle" class="btn btn-purple" style="position: absolute; bottom:200px; left:435px;">Ürün Resmini Güncelle</button>
+            </div>
+        </form>
         <form action="" method="POST" class="personelForm">
-            <div class="personelResim"><i class="fas fa-file-upload fa-10x"></i></div>
             <div class="personelIsımler">
                 <input type="text" name="urunAdi" placeholder="Ürün Adı" value="<?php echo $satir["urunAdi"] ?>">
                 <input type="text" name="urunStok" placeholder="Ürün Stok" value="<?php echo $satir["urunStok"] ?>">
@@ -87,12 +105,32 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
         </form>
     </div>
 </section>
+
 <?php
+if (isset($_POST["profilResminiGuncelle"]) && strlen($_FILES["image"]["name"]) > 0) {
+    unlink($satir["urun_foto"]);
+    $img_path = "productImgs/" . $_FILES["image"]["name"];
+    $sonuc = move_uploaded_file($_FILES["image"]["tmp_name"], $img_path);
+    $sorgu = $dbbaglanti->prepare("UPDATE urunler SET urun_foto = ? WHERE urunId=?");
+    $sonuc = $sorgu->execute(array(
+        $img_path, $satir["urunId"]
+    ));
+    $sorgu = $dbbaglanti->prepare("SELECT * FROM urunler WHERE urunId=?");
+    $sorgu->execute(array(
+        $satir["urunId"]
+    ));
+    $satir2 = $sorgu->fetch(PDO::FETCH_ASSOC);
+    $satir = $satir2;
+    header("location:urunstok.php");
+}
+
+
 if (isset($_POST["personelEkleButton"])) {
     $sorgu = $dbbaglanti->prepare("UPDATE urunler SET urunAdi = ?, urunStok = ?, urunKategoriId = ?, urunMarka = ?, urunCinsiyet = ?, urunNumara = ?, urunRenk = ? WHERE urunId=?");
     $sorgu->execute(array(
         $_POST["urunAdi"], $_POST["urunStok"], $_POST["kategori"], $_POST["marka"], $_POST["cinsiyet"], $_POST["urunNumara"], $_POST["renk"], $_GET["id"]
     ));
+    header("location: urunstok.php");
 }
 ?>
 

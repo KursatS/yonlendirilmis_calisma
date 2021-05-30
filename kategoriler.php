@@ -25,10 +25,18 @@ if (isset($_GET["durum"])) {
 
 <div class="personelListe">
   <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <div class="aramaKutucugu">
-      <form action="" method="GET"><input type="text" name="aramaButon" id=""><button class="aramaKutucuguButon" type="submit"><i class="fas fa-search"></i></button></form>
+    <div style="margin:10px 0 10px 10px; display:flex; align-items:center;">
+      <input style="width: 250px;" placeholder="ID'ye göre arama" type="text" class="form-control" id="aramaText">
+      <button class="btn btn-purple" id="aramaButonu">
+        <i class="fas fa-search">
+        </i>
+      </button>
+      <select id="aramaTextFiltre" style="width: 100px; margin: 0 10px 0 10px;" class="form-control">
+        <option value="0">ID</option>
+        <option value="1">İsim</option>
+      </select>
     </div>
-    <table class="table table-bordered table-striped mb-0 personellerTablo">
+    <table id="kategorilerTablosu" class="table table-bordered table-striped mb-0 personellerTablo">
       <thead class="thead-dark">
         <tr>
           <th scope="col" width="100px">ID</th>
@@ -44,7 +52,7 @@ if (isset($_GET["durum"])) {
             <th scope="row"><?php echo $satir["kategoriId"] ?></th>
             <td><?php echo $satir["kategoriAdi"] ?></td>
             <td><?php echo $satir["kategoriDurum"] ?></td>
-            <td align="center"><a data-kategoriadi="<?php echo $satir["kategoriAdi"] ?>" data-kategoridurum="<?php echo $satir["kategoriDurum"] ?>" data-bs-toggle="modal" data-bs-target="#kategoriDuzenleModalCenter" class="modalaData" data-kategoriid="<?php echo $satir["kategoriId"] ?>"><i class="far fa-edit"></i></a></td>
+            <td align="center"><a id='modalaVeriGonder' data-kategoriadi="<?php echo $satir["kategoriAdi"] ?>" data-kategoridurum="<?php echo $satir["kategoriDurum"] ?>" data-bs-toggle="modal" data-bs-target="#kategoriDuzenleModalCenter" class="modalaData" data-kategoriid="<?php echo $satir["kategoriId"] ?>"><i class="far fa-edit"></i></a></td>
           </tr>
         <?php endwhile; ?>
       </tbody>
@@ -101,12 +109,14 @@ if (isset($_GET["durum"])) {
 </div>
 <?php
 if (isset($_POST["markaEkleButton"])) {
-  $sorgu = $dbbaglanti->prepare("INSERT INTO kategori SET kategoriAdi = ?");
-  $s = $sorgu->execute(array(
-    $_POST["markaAdi"]
-  ));
-  if ($s) {
-    header("location:kategoriler.php");
+  if (strlen($_POST["kategoriAdi"]) >= 1) {
+    $sorgu = $dbbaglanti->prepare("INSERT INTO kategori SET kategoriAdi = ?");
+    $s = $sorgu->execute(array(
+      $_POST["markaAdi"]
+    ));
+    if ($s) {
+      header("location:kategoriler.php");
+    }
   }
 }
 ?>
@@ -129,12 +139,77 @@ if (isset($_POST["kategoriDegistirButon"])) {
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+  $("#aramaTextFiltre").change(function() {
+    var armt = $("#aramaTextFiltre").val();
+    if (armt == "0") {
+      $("#aramaText").attr("placeholder", "IDye göre arama");
+    } else if (armt == "1") {
+      $("#aramaText").attr("placeholder", "İsime göre arama");
+    }
+
+    aramaButonu(armt);
+
+  });
+
+
+  var urunStokTemizle = function() {
+    $('#kategorilerTablosu tbody').empty();
+  }
+
+
+  var aramaButonu = $("#aramaButonu").click(function() {
+    var armt = $("#aramaTextFiltre").val();
+    var aramaText = $("#aramaText").val();
+    urunStokTemizle();
+    $.ajax({
+      url: "kategoriListeleme.php",
+      type: "POST",
+      data: {
+        'armt': armt,
+        'aramaText': aramaText
+      },
+      success: function(data) {
+        data = JSON.parse(data);
+
+        data.forEach(function(islem, index) {
+          let satir = $("<tr>")
+          let hucre2 = $("<td>").text(islem.kategoriId)
+          let hucre3 = $("<td>").text(islem.kategoriAdi)
+          let hucre4 = $("<td>").text(islem.kategoriDurum)
+          let hucre5 = $("<td id='modalaVeriGonder' align='center'><a data-kategoriadi= '" + islem.kategoriAdi + "' data-kategoridurum= '" + islem.kategoriDurum + "' class='modalaData' data-kategoriid= '" + islem.kategoriId + "' ><i class='far fa-edit'></i></a></td>")
+
+          satir.append(hucre2)
+          satir.append(hucre3)
+          satir.append(hucre4)
+          satir.append(hucre5)
+
+          $("#kategorilerTablosu").append(satir)
+
+        })
+      }
+    })
+
+  });
+
+  $("#kategorilerTablosu").on('click', '#modalaVeriGonder', function() {
+    $("#kategoriDuzenleModalCenter").modal('show');
+    var kategoriId = $(this).attr("data-kategoriid");
+    var kategoriAdi = $(this).attr("data-kategoriadi");
+    var kategoriDurum = $(this).attr("data-kategoridurum");
+    $("#kategoriAdi").val(kategoriAdi);
+    $("#kategoriId").val(kategoriId);
+    if (kategoriDurum == 'A') {
+      $("#kategoriDurum").prop('checked', true);
+    }
+  })
+
+
+
   $(document).ready(function() {
-    $('.modalaData').click(function() {
+    $('.modalaVeriGonder').click(function() {
       var kategoriId = $(this).attr("data-kategoriid");
       var kategoriAdi = $(this).attr("data-kategoriadi");
       var kategoriDurum = $(this).attr("data-kategoridurum");
-
       $("#kategoriAdi").val(kategoriAdi);
       $("#kategoriId").val(kategoriId);
       if (kategoriDurum == 'A') {

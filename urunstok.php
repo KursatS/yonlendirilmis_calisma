@@ -37,14 +37,25 @@ function markaConverter($id, $db)
 }
 ?>
 
-
-
 <div class="personelListe">
   <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <div class="aramaKutucugu">
-      <form action="" method="GET"><input type="text" name="aramaButon" id=""><button class="aramaKutucuguButon" type="submit"><i class="fas fa-search"></i></button></form>
+    <div style="margin:10px 0 10px 10px; display:flex; align-items:center;">
+      <input style="width: 250px;" placeholder="ID'ye göre arama" type="text" class="form-control" id="aramaText">
+      <button class="btn btn-purple" id="aramaButonu">
+        <i class="fas fa-search">
+        </i>
+      </button>
+      <select id="aramaTextFiltre" style="width: 100px; margin: 0 10px 0 10px;" class="form-control">
+        <option value="0">Seçiniz</option>
+        <option value="1">İsim</option>
+        <option value="2">Marka</option>
+        <option value="3">Kategori</option>
+        <option value="4">Cinsiyet</option>
+        <option value="5">Ayakkabı Numarası</option>
+        <option value="6">Renk</option>
+      </select>
     </div>
-    <table class="table table-bordered table-striped mb-0 personellerTablo">
+    <table id="urunStokTablosu" class="table table-bordered table-striped mb-0 personellerTablo">
       <thead class="thead-dark">
         <tr>
           <th scope="col" width="100px">ID</th>
@@ -87,5 +98,80 @@ function markaConverter($id, $db)
   </div>
 </div>
 </body>
+<script>
+  $("#aramaTextFiltre").change(function() {
+    var armt = $("#aramaTextFiltre").val();
+    if (armt == "0") {
+      $("#aramaText").attr("placeholder", "IDye göre arama");
+    } else if (armt == "1") {
+      $("#aramaText").attr("placeholder", "İsime göre arama");
+    } else if (armt == "2") {
+      $("#aramaText").attr("placeholder", "Markaya göre arama");
+    } else if (armt == "3") {
+      $("#aramaText").attr("placeholder", "Kategoriye göre arama");
+    } else if (armt == "4") {
+      $("#aramaText").attr("placeholder", "Cinsiyete göre arama");
+    } else if (armt == "5") {
+      $("#aramaText").attr("placeholder", "Numaraya göre arama");
+    } else if (armt == "6") {
+      $("#aramaText").attr("placeholder", "Renk göre arama");
+    }
+
+    aramaButonu(armt);
+
+  });
+
+
+  var urunStokTemizle = function() {
+    $('#urunStokTablosu tbody').empty();
+  }
+
+
+  var aramaButonu = $("#aramaButonu").click(function() {
+    var armt = $("#aramaTextFiltre").val();
+    var aramaText = $("#aramaText").val();
+    urunStokTemizle();
+    $.ajax({
+      url: "urunListelemeId.php",
+      type: "POST",
+      data: {
+        'armt': armt,
+        'aramaText': aramaText
+      },
+      success: function(data) {
+
+        data = JSON.parse(data);
+
+        data.forEach(function(islem, index) {
+          let satir = $("<tr>")
+          let hucre2 = $("<td>").text(islem.urunId)
+          let hucre3 = $("<td>").text(islem.urunAdi)
+          let hucre4 = $("<td>").text(islem.urunMarka)
+          let hucre5 = $("<td>").text(islem.urunKategoriId)
+          let hucre6 = $("<td>").text(islem.urunCinsiyet)
+          let hucre7 = $("<td>").text(islem.urunStok)
+          let hucre8 = $("<td>").text(islem.urunNumara)
+          let hucre9 = $("<td>").text(islem.urunRenk)
+          let hucre10 = $("<td>").text(islem.urunDurum)
+          let hucre11 = $("<td align='center'><a href=" + 'urunDuzenle.php?id=' + islem.urunId + "/ <i class='far fa-edit'></i></a></td>")
+
+          satir.append(hucre2)
+          satir.append(hucre3)
+          satir.append(hucre4)
+          satir.append(hucre5)
+          satir.append(hucre6)
+          satir.append(hucre7)
+          satir.append(hucre8)
+          satir.append(hucre9)
+          satir.append(hucre10)
+          satir.append(hucre11)
+
+          $("#urunStokTablosu").append(satir)
+        })
+      }
+    })
+
+  });
+</script>
 
 </html>

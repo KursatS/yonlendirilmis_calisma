@@ -64,13 +64,15 @@ $sorgu3->execute();
   </div>
   <?php
   if (isset($_POST["olayEkleButon"])) {
+    $olayBasligi = $_POST["olayBasligi"];
+    if (strlen($olayBasligi) >= 1 ){
     $sorgu = $dbbaglanti->prepare("INSERT INTO olaylar SET olayBasligi = ?");
     $s = $sorgu->execute(array(
       $_POST["olayBasligi"]
     ));
     if ($s) {
       header("location:takvim.php");
-    }
+    }}
   }
   ?>
   <div class="modal fade" id="olaySilModalCenter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -83,6 +85,7 @@ $sorgu3->execute();
           <form action="" class="markaForm" method="POST">
             <input name="olayId" type="hidden" id="olayId">
             <select name="olaylar" id="olaylar" class="form-select form-select-lg mb-3">
+            <option value="">Seçiniz</option>
               <?php
               while ($satir2 = $sorgu2->fetch(PDO::FETCH_ASSOC)) : ?>
                 <option value="<?php echo $satir2["olayId"] ?>"><?php echo $satir2["olayBasligi"] ?></option>
@@ -113,7 +116,7 @@ $sorgu3->execute();
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Olay Sil</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Olay Düzenle</h5>
         </div>
         <div class="modal-body">
           <form action="" class="markaForm" method="POST">
@@ -135,13 +138,15 @@ $sorgu3->execute();
   </div>
   <?php
   if (isset($_POST["olayDuzenleButon"])) {
+    $olayBasligi = $_POST["olayBasligi"];
+    if (strlen($olayBasligi) >= 1 ){
     $sorgu = $dbbaglanti->prepare("UPDATE olaylar SET olayBasligi=? WHERE olayId = ?");
     $s = $sorgu->execute(array(
       $_POST["olayBasligi"], $_POST["olaylar"]
     ));
     if ($s) {
       header("location:takvim.php");
-    }
+    }}
   }
   ?>
 

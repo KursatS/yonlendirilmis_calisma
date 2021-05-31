@@ -8,7 +8,7 @@ if (isset($_GET["durum"])) {
   $sorgu->execute();
   $link = "markalar.php";
   $isim = "Aktif Markaları Göster";
-}else {
+} else {
   $sorgu = $dbbaglanti->prepare("SELECT * FROM markalar WHERE markaDurum=? ORDER BY markaId");
   $sorgu->execute(array(
     "A"
@@ -133,6 +133,21 @@ if (isset($_POST["markaDegistirButon"])) {
 ?>
 
 <script type="text/javascript">
+  $("#markaTablosu").on('click', '.modalaData', function(e) {
+    $("#markaDuzenleModalCenter").modal('show');
+    var markaId = $(this).attr("data-markaid");
+    var markaAdi = $(this).attr("data-markaadi");
+    var markaDurum = $(this).attr("data-markadurum");
+
+    $("#markaAdi").val(markaAdi);
+    $("#markaId").val(markaId);
+    if (markaDurum == 'A') {
+      $("#markaDurum").prop('checked', true);
+    }
+  })
+
+
+
   $("#aramaTextFiltre").change(function() {
     var armt = $("#aramaTextFiltre").val();
     if (armt == "0") {
@@ -170,7 +185,7 @@ if (isset($_POST["markaDegistirButon"])) {
           let hucre2 = $("<td>").text(islem.markaId)
           let hucre3 = $("<td>").text(islem.markaAdi)
           let hucre4 = $("<td>").text(islem.markaDurum)
-          let hucre5 = $("<td align='center'><a data-markaadi='"+ islem.markaAdi +"' data-markadurum='"+ islem.markaDurum +"' data-bs-toggle='modal' data-bs-target='#markaDuzenleModalCenter' class='modalaData' data-markaid='"+ islem.markaId +"'><i class='far fa-edit'></i></a></td>")
+          let hucre5 = $("<td align='center'><a data-markaadi='" + islem.markaAdi + "' data-markadurum='" + islem.markaDurum + "' class='modalaData' data-markaid='" + islem.markaId + "'><i class='far fa-edit'></i></a></td>")
 
           satir.append(hucre2)
           satir.append(hucre3)

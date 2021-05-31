@@ -176,7 +176,7 @@ if (isset($_POST["kategoriDegistirButon"])) {
           let hucre2 = $("<td>").text(islem.kategoriId)
           let hucre3 = $("<td>").text(islem.kategoriAdi)
           let hucre4 = $("<td>").text(islem.kategoriDurum)
-          let hucre5 = $("<td id='modalaVeriGonder' align='center'><a data-kategoriadi= '" + islem.kategoriAdi + "' data-kategoridurum= '" + islem.kategoriDurum + "' class='modalaData' data-kategoriid= '" + islem.kategoriId + "' ><i class='far fa-edit'></i></a></td>")
+          let hucre5 = $("<td align='center'><a data-kategoriadi= '" + islem.kategoriAdi + "' data-kategoridurum= '" + islem.kategoriDurum + "' class='modalaData' data-kategoriid= '" + islem.kategoriId + "' ><i class='far fa-edit'></i></a></td>")
 
           satir.append(hucre2)
           satir.append(hucre3)
@@ -191,22 +191,25 @@ if (isset($_POST["kategoriDegistirButon"])) {
 
   });
 
-  $("#kategorilerTablosu").on('click', '#modalaVeriGonder', function() {
-    $("#kategoriDuzenleModalCenter").modal('show');
-    var kategoriId = $(this).attr("data-kategoriid");
-    var kategoriAdi = $(this).attr("data-kategoriadi");
-    var kategoriDurum = $(this).attr("data-kategoridurum");
-    $("#kategoriAdi").val(kategoriAdi);
-    $("#kategoriId").val(kategoriId);
-    if (kategoriDurum == 'A') {
-      $("#kategoriDurum").prop('checked', true);
-    }
-  })
+  setInterval(function() {
+    $("#kategorilerTablosu").on('click', '.modalaData', function(e) {
+      $("#kategoriDuzenleModalCenter").modal('show');
+      var kategoriId = $(this).attr("data-kategoriid");
+      var kategoriAdi = $(this).attr("data-kategoriadi");
+      var kategoriDurum = $(this).attr("data-kategoridurum");
+      $("#kategoriAdi").val(kategoriAdi);
+      $("#kategoriId").val(kategoriId);
+      if (kategoriDurum == 'A') {
+        $("#kategoriDurum").prop('checked', true);
+      }
+    })
+  }, 3000)
+
 
 
 
   $(document).ready(function() {
-    $('.modalaVeriGonder').click(function() {
+    $('.modalaData').click(function() {
       var kategoriId = $(this).attr("data-kategoriid");
       var kategoriAdi = $(this).attr("data-kategoriadi");
       var kategoriDurum = $(this).attr("data-kategoridurum");

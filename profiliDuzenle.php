@@ -38,7 +38,7 @@ $_SESSION["personel"] = $satir;
                         <button name="profilResminiGuncelle" class="btn btn-purple" style="margin: 20px 0 0 50px">Profil Resmini Güncelle</button>
                     </div>
                 </form>
-                <div style="" class="personelIsımler">
+                <div class="personelIsımler">
                     <input id="ad" type="text" name="ad" placeholder="Ad" readonly value="<?php echo $satir["ad"] ?>">
                     <input id="soyad" type="text" name="soyad" placeholder="Soyad" readonly value="<?php echo $satir["soyad"] ?>">
                     <input id="email" class="kaydetButonKontrol" type="text" name="email" placeholder="Email" value="<?php echo $satir["email"] ?>">

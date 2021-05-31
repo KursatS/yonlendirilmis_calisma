@@ -30,8 +30,8 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
         </form>
         <form action="" method="POST" class="personelForm">
             <div class="personelIsımler">
-                <input type="text" name="urunAdi" placeholder="Ürün Adı" value="<?php echo $satir["urunAdi"] ?>">
-                <input type="text" name="urunStok" placeholder="Ürün Stok" value="<?php echo $satir["urunStok"] ?>">
+                <input id="urunAdiText" type="text" name="urunAdi" placeholder="Ürün Adı" value="<?php echo $satir["urunAdi"] ?>">
+                <input id="urunAdiStok" type="number" name="urunStok" placeholder="Ürün Stok" value="<?php echo $satir["urunStok"] ?>">
                 <select name="kategori">
                     <option value="">Kategori Seçiniz</option>
                     <?php
@@ -99,7 +99,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                 </select>
             </div>
             <div class="personelGiris">
-                <button class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
+                <button id="kaydetButonu" class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
                 <button class="personelSil btn-red" onclick="" type="submit" name="personelSilButton"><a href="urunSil.php?id=<?php echo $_GET["id"] ?>">Ürünü Sil</a></button>
             </div>
         </form>
@@ -126,7 +126,7 @@ if (isset($_POST["profilResminiGuncelle"]) && strlen($_FILES["image"]["name"]) >
 
 
 if (isset($_POST["personelEkleButton"])) {
-    $sorgu = $dbbaglanti->prepare("UPDATE urunler SET urunAdi = ?, urunStok = ?, urunKategoriId = ?, urunMarka = ?, urunCinsiyet = ?, urunNumara = ?, urunRenk = ? WHERE urunId=?");
+    $sorgu = $dbbaglanti->prepare("UPDATE urunler SET urunAdi = ?, urunStok = ?, urunKategoriId = ?, urunMarka = ?, urunCinsiyet = ?, urunNumara = ?, urunRenk = ?, urunDurum = 'A' WHERE urunId=?");
     $sorgu->execute(array(
         $_POST["urunAdi"], $_POST["urunStok"], $_POST["kategori"], $_POST["marka"], $_POST["cinsiyet"], $_POST["urunNumara"], $_POST["renk"], $_GET["id"]
     ));
@@ -135,5 +135,21 @@ if (isset($_POST["personelEkleButton"])) {
 ?>
 
 </body>
+<script>
+$("#urunAdiText").on("input", function() {
+   if($("#urunAdiText").val().length < 2){
+    document.getElementById("kaydetButonu").disabled = true;
+   }else{
+    document.getElementById("kaydetButonu").disabled = false;
+   }
+});
+$("#urunAdiStok").on("input", function() {
+   if($("#urunAdiStok").val().length < 1){
+    document.getElementById("kaydetButonu").disabled = true;
+   }else{
+    document.getElementById("kaydetButonu").disabled = false;
+   }
+});
 
+</script>
 </html>

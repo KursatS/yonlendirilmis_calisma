@@ -30,10 +30,10 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
         </form>
         <form action="" method="POST" class="personelForm">
             <div class="personelIsımler">
-                <input type="text" name="ad" placeholder="Ad" value="<?php echo $satir["ad"] ?>">
-                <input type="text" name="soyad" placeholder="Soyad" value="<?php echo $satir["soyad"] ?>">
-                <input type="text" name="email" placeholder="Email" value="<?php echo $satir["email"] ?>">
-                <input type="text" name="telefon" placeholder="Telefon" value="<?php echo $satir["telefon"] ?>">
+                <input id="ad" type="text" name="ad" placeholder="Ad" value="<?php echo $satir["ad"] ?>">
+                <input id="soyad" type="text" name="soyad" placeholder="Soyad" value="<?php echo $satir["soyad"] ?>">
+                <input id="email" type="text" name="email" placeholder="Email" value="<?php echo $satir["email"] ?>">
+                <input id="telefon" type="text" name="telefon" placeholder="Telefon" value="<?php echo $satir["telefon"] ?>">
                 <select name="cinsiyet">
                     <option value="">Cinsiyet Seçiniz</option>
                     <option value="E" <?php if ($satir["cinsiyet"] == "E") {
@@ -60,8 +60,8 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                 </select>
             </div>
             <div class="personelGiris">
-                <input type="text" name="personel_adi" placeholder="Personel Giriş Adı" value="<?php echo $satir["personel_adi"] ?>">
-                <button class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
+                <input id="personelAdi" type="text" name="personel_adi" placeholder="Personel Giriş Adı" value="<?php echo $satir["personel_adi"] ?>">
+                <button id="personelKaydetButon" class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
                 <button class="personelSil btn-red" type="submit" name="personelSilButton"><a href="personelSil.php?id=<?php echo $_GET["id"] ?>">Personeli Sil</a></button>
             </div>
         </form>
@@ -97,5 +97,42 @@ if (isset($_POST["personelEkleButton"])) {
 ?>
 
 </body>
+<script>
+    $("#ad").on("input", function() {
+        if ($("#ad").val().length < 2) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else {
+            document.getElementById("personelKaydetButon").disabled = false;
+        }
+    });
+    $("#soyad").on("input", function() {
+        if ($("#soyad").val().length < 2) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else {
+            document.getElementById("personelKaydetButon").disabled = false;
+        }
+    });
+    $("#email").on("input", function() {
+        if ($("#email").val().length < 6) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else {
+            document.getElementById("personelKaydetButon").disabled = false;
+        }
+    });
+    $("#telefon").on("input", function() {
+        if ($("#telefon").val().length < 10) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else {
+            document.getElementById("personelKaydetButon").disabled = false;
+        }
+    });
+    $("#personelAdi").on("input", function() {
+        if ($("#personelAdi").val().length < 6) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else {
+            document.getElementById("personelKaydetButon").disabled = false;
+        }
+    });
+</script>
 
 </html>

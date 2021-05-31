@@ -111,7 +111,7 @@ require "header.php";
                     </div>
                     <div>
                         <label style="min-width: 111px; " for="islemMiktariText">İşlem Miktarı</label>
-                        <input style="padding: 20px 0px;" name="i2" type="text" id="islemMiktariText">
+                        <input style="padding: 20px 0px;" name="i2" type="number" id="islemMiktariText">
                     </div>
                     <div>
                         <label style="min-width: 111px;" for="islemTarihiText">İşlem Tarihi</label>
@@ -120,7 +120,7 @@ require "header.php";
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-red" data-bs-dismiss="modal">Kapat</button>
-                <button class="btn btn-purple" type="button" onclick="finansIslemDuzenleModal()">Değiştir</button>
+                <button id="finansIslemDuzenleModalButon" class="btn btn-purple" type="button" onclick="finansIslemDuzenleModal()">Değiştir</button>
                 </form>
             </div>
         </div>
@@ -286,6 +286,29 @@ require "header.php";
         });
         chart.update();
     }
+
+    $("#islemAdiText").on("input", function() {
+        if ($("#islemAdiText").val().length < 2) {
+            document.getElementById("finansIslemDuzenleModalButon").disabled = true;
+        } else {
+            document.getElementById("finansIslemDuzenleModalButon").disabled = false;
+        }
+    });
+    $("#islemMiktariText").on("input", function() {
+        if ($("#islemMiktariText").val().length < 1) {
+            document.getElementById("finansIslemDuzenleModalButon").disabled = true;
+        } else {
+            document.getElementById("finansIslemDuzenleModalButon").disabled = false;
+        }
+    });
+    $("#islemTarihiText").on("input", function() {
+        if ($("#islemTarihiText").val().length < 10) {
+            document.getElementById("finansIslemDuzenleModalButon").disabled = true;
+        } else {
+            document.getElementById("finansIslemDuzenleModalButon").disabled = false;
+        }
+    });
+
     var finansIslemDuzenleModal = function() {
         var islemId = $("#islemId").val();
         var islemAdi = $("#islemAdiText").val();

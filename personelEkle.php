@@ -6,17 +6,17 @@ require "header.php"
     <div class="personelEkle">
         <form action="" method="POST" class="personelForm">
             <div class="personelIsımler">
-                <input type="text" name="ad" placeholder="Ad">
-                <input type="text" name="soyad" placeholder="Soyad">
-                <input type="text" name="email" placeholder="Email">
-                <input type="text" name="telefon" placeholder="Telefon">
-                <select name="cinsiyet">
-                    <option value="">Cinsiyet Seçiniz</option>
+                <input id="ad" type="text" name="ad" placeholder="Ad">
+                <input id="soyad" type="text" name="soyad" placeholder="Soyad">
+                <input id="email" type="text" name="email" placeholder="Email">
+                <input id="telefon" type="text" name="telefon" placeholder="Telefon">
+                <select id="cinsiyet" name="cinsiyet">
+                    <option value="P">Cinsiyet Seçiniz</option>
                     <option value="E">Erkek</option>
                     <option value="K">Kadın</option>
                 </select>
-                <select name="yetki">
-                    <option value="">Yetki Seçiniz</option>
+                <select id="yetki" name="yetki">
+                    <option value="P">Yetki Seçiniz</option>
                     <option value="A">Yönetici</option>
                     <option value="B">Muhasebe</option>
                     <option value="C">Satış Görevlisi</option>
@@ -24,10 +24,10 @@ require "header.php"
                 </select>
             </div>
             <div class="personelGiris">
-                <input type="text" name="personel_adi" placeholder="Personel Giriş Adı">
-                <input type="text" name="personel_sifre" placeholder="Personel Giriş Şifre">
-                <input type="text" name="personel_sifre2" placeholder="Personel Şifre Tekrar">
-                <button class="personelEkleKaydet" type="submit" name="personelEkleButton">Kaydet</button>
+                <input id="personelAdi" type="text" name="personel_adi" placeholder="Personel Giriş Adı">
+                <input id="personelSifre" type="text" name="personel_sifre" placeholder="Personel Giriş Şifre">
+                <input id="personelSifre2" type="text" name="personel_sifre2" placeholder="Personel Şifre Tekrar">
+                <button id="personelKaydetButon" class="personelEkleKaydet btn btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
             </div>
         </form>
     </div>
@@ -39,12 +39,67 @@ if (isset($_POST["personelEkleButton"])) {
         $sorgu->execute(array(
             $_POST["ad"], $_POST["soyad"], $_POST["email"], $_POST["telefon"], $_POST["cinsiyet"], $_POST["yetki"], $_POST["personel_adi"], md5($_POST["personel_sifre"])
         ));
-    }else{
-        
+        header("location:personeller.php");
+    } else {
     }
 }
 ?>
 
 </body>
+
+<script>
+    var kontrol = function() {
+        if ($("#ad").val().length < 2) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#soyad").val().length < 2) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#email").val().length < 6) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#telefon").val().length < 10) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#cinsiyet").val() == "P") {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#yetki").val() == "P") {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#personelAdi").val().length < 6) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#personelSifre").val().length < 6 || $("#personelSifre").val() != $("#personelSifre2").val()) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else if ($("#personelSifre2").val().length < 6 || $("#personelSifre").val() != $("#personelSifre2").val()) {
+            document.getElementById("personelKaydetButon").disabled = true;
+        } else {
+            document.getElementById("personelKaydetButon").disabled = false;
+        }
+    }
+
+    document.getElementById("personelKaydetButon").disabled = true;
+    $("#ad").on("input", function() {
+        kontrol();
+    });
+    $("#soyad").on("input", function() {
+        kontrol();
+    });
+    $("#email").on("input", function() {
+        kontrol();
+    });
+    $("#telefon").on("input", function() {
+        kontrol();
+    });
+    $("#cinsiyet").on("input", function() {
+        kontrol();
+    });
+    $("#yetki").on("input", function() {
+        kontrol();
+    });
+    $("#personelAdi").on("input", function() {
+        kontrol();
+    });
+    $("#personelSifre").on("input", function() {
+        kontrol();
+    });
+    $("#personelSifre2").on("input", function() {
+        kontrol();
+    });
+</script>
 
 </html>

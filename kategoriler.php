@@ -191,19 +191,17 @@ if (isset($_POST["kategoriDegistirButon"])) {
 
   });
 
-  setInterval(function() {
-    $("#kategorilerTablosu").on('click', '.modalaData', function(e) {
-      $("#kategoriDuzenleModalCenter").modal('show');
-      var kategoriId = $(this).attr("data-kategoriid");
-      var kategoriAdi = $(this).attr("data-kategoriadi");
-      var kategoriDurum = $(this).attr("data-kategoridurum");
-      $("#kategoriAdi").val(kategoriAdi);
-      $("#kategoriId").val(kategoriId);
-      if (kategoriDurum == 'A') {
-        $("#kategoriDurum").prop('checked', true);
-      }
-    })
-  }, 3000)
+  $("#kategorilerTablosu").on('click', '.modalaData', function(e) {
+    $("#kategoriDuzenleModalCenter").modal('show');
+    var kategoriId = $(this).attr("data-kategoriid");
+    var kategoriAdi = $(this).attr("data-kategoriadi");
+    var kategoriDurum = $(this).attr("data-kategoridurum");
+    $("#kategoriAdi").val(kategoriAdi);
+    $("#kategoriId").val(kategoriId);
+    if (kategoriDurum == 'A') {
+      $("#kategoriDurum").prop('checked', true);
+    }
+  })
 
 
 

@@ -46,7 +46,7 @@ function markaConverter($id, $db)
         </i>
       </button>
       <select id="aramaTextFiltre" style="width: 100px; margin: 0 10px 0 10px;" class="form-control">
-        <option value="0">Seçiniz</option>
+        <option value="0">ID</option>
         <option value="1">İsim</option>
         <option value="2">Marka</option>
         <option value="3">Kategori</option>

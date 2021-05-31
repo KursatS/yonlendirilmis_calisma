@@ -11,11 +11,16 @@ require "dbbaglanti.php"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş</title>
     <link rel="stylesheet" href="css\MYLogin.css">
+    <style>
+        body {
+            background-image: url("images\\purplemountain.png");
+        }
+    </style>
 </head>
 
 <body>
-    <div class="loginDiv">
-        <img src="images\Loginlogo.png">
+    <div class="loginDiv" style="background-color: rgba(0,0,0,0.85); padding:70px; border-radius:10px;">
+        <img style="margin-left: 100px;" src=" images\Loginlogo.png">
         <?php
         if (!isset($_GET["mail"]) or !isset($_GET["kod"])) :
         ?>

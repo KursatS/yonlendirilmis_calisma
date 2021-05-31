@@ -8,7 +8,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <section>
-    <div class="personelEkle">
+    <div class="personelEkle background-photo">
         <form action="" method="POST" style="margin-left: 100px;" enctype="multipart/form-data">
             <div class="personelResim">
                 <input style="display: none;" type="file" name="image" id="upload-pp-btn">
@@ -34,7 +34,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                 <input id="soyad" type="text" name="soyad" placeholder="Soyad" value="<?php echo $satir["soyad"] ?>">
                 <input id="email" type="text" name="email" placeholder="Email" value="<?php echo $satir["email"] ?>">
                 <input id="telefon" type="text" name="telefon" placeholder="Telefon" value="<?php echo $satir["telefon"] ?>">
-                <select name="cinsiyet">
+                <select style="height: 50px; width:200px;" name="cinsiyet">
                     <option value="">Cinsiyet Seçiniz</option>
                     <option value="E" <?php if ($satir["cinsiyet"] == "E") {
                                             echo "SELECTED";
@@ -43,7 +43,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                                             echo "SELECTED";
                                         } ?>>Kadın</option>
                 </select>
-                <select name="yetki">
+                <select style="height: 50px; width:200px;" name="yetki">
                     <option value="">Yetki Seçiniz</option>
                     <option value="A" <?php if ($satir["yetki"] == "A") {
                                             echo "SELECTED";
@@ -61,8 +61,8 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
             </div>
             <div class="personelGiris">
                 <input id="personelAdi" type="text" name="personel_adi" placeholder="Personel Giriş Adı" value="<?php echo $satir["personel_adi"] ?>">
-                <button id="personelKaydetButon" class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
-                <button class="personelSil btn-red" type="submit" name="personelSilButton"><a href="personelSil.php?id=<?php echo $_GET["id"] ?>">Personeli Sil</a></button>
+                <button id="personelKaydetButon" class="btn-duzenle btn btn-lightpurple" style="margin: 10px 0 0 200px;" type="submit" name="personelEkleButton">Kaydet</button>
+                <button class="btn-duzenle btn btn-red" style="padding:0px; margin: 10px 0 0 200px;" type="submit" name="personelSilButton"><a href="personelSil.php?id=<?php echo $_GET["id"] ?>"></a>Personeli Sil</button>
             </div>
         </form>
     </div>

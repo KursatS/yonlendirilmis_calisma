@@ -112,7 +112,10 @@ if (!isset($_SESSION["personel"])) {
             $("#animasyonAyarlar").animate({
                 bottom: '200px'
             });
-            document.getElementById("ayarlarButonu").setAttribute("onClick", "javascript: asagiIndir()");
+            setTimeout(function() {
+                document.getElementById("ayarlarButonu").setAttribute("onClick", "javascript: asagiIndir()");
+            }, 1500)
+
             document.getElementById("ayarlarButonuIcon").setAttribute("class", "fas fa-cog fa-2x fa-spin");
             $("#profilDuzenleButonu").fadeIn(1500);
             $("#cikisButonu").fadeIn(1500);

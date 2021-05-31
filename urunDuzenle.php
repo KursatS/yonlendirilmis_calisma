@@ -8,7 +8,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <section>
-    <div class="personelEkle">
+    <div class="personelEkle background-photo">
         <form action="" method="POST" style="margin-left: 100px;" enctype="multipart/form-data">
             <div class="personelResim">
                 <input style="display: none;" type="file" name="image" id="upload-pp-btn">
@@ -32,7 +32,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
             <div class="personelIsımler">
                 <input id="urunAdiText" type="text" name="urunAdi" placeholder="Ürün Adı" value="<?php echo $satir["urunAdi"] ?>">
                 <input id="urunAdiStok" type="number" name="urunStok" placeholder="Ürün Stok" value="<?php echo $satir["urunStok"] ?>">
-                <select name="kategori">
+                <select style="height: 50px; width:200px;" name="kategori">
                     <option value="">Kategori Seçiniz</option>
                     <?php
                     $sorgu2 = $dbbaglanti->prepare("SELECT * FROM kategori");
@@ -47,7 +47,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                     }
                     ?>
                 </select>
-                <select name="marka">
+                <select style="height: 50px; width:200px;" name="marka">
                     <option value="">Marka Seçiniz</option>
                     <?php
                     $sorgu2 = $dbbaglanti->prepare("SELECT * FROM markalar");
@@ -62,7 +62,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                     }
                     ?>
                 </select>
-                <select name="cinsiyet">
+                <select style="height: 50px; width:200px;" name="cinsiyet">
                     <option value="">Cinsiyet Seçiniz</option>
                     <option value="E" <?php if ($satir["urunCinsiyet"] == "E") {
                                             echo "SELECTED";
@@ -71,7 +71,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                                             echo "SELECTED";
                                         } ?>>Kadın</option>
                 </select>
-                <select name="urunNumara">
+                <select style="height: 50px; width:200px;" name="urunNumara">
                     <option value="">Numara Seçiniz</option>
                     <?php
                     for ($i = 35; $i <= 45; $i++) {
@@ -84,7 +84,7 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
 
                     ?>
                 </select>
-                <select name="renk">
+                <select style="height: 50px; width:200px;" name="renk">
                     <option value="">Renk Seçiniz</option>
                     <?php
                     $renkler = array("Siyah", "Gri", "Beyaz", "Kırmızı", "Sarı", "Yeşil", "Mavi", "Mor", "Turuncu", "Pembe");
@@ -99,8 +99,8 @@ $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
                 </select>
             </div>
             <div class="personelGiris">
-                <button id="kaydetButonu" class="personelEkleKaydet btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
-                <button class="personelSil btn-red" onclick="" type="submit" name="personelSilButton"><a href="urunSil.php?id=<?php echo $_GET["id"] ?>">Ürünü Sil</a></button>
+                <button id="kaydetButonu" class="btn-duzenle btn btn-lightpurple" type="submit" name="personelEkleButton">Kaydet</button>
+                <button class="btn-duzenle btn btn-red" onclick="" type="submit" style="padding:0px; margin: 10px 0 0 0;" name="personelSilButton"><a href="urunSil.php?id=<?php echo $_GET["id"] ?>"></a>Ürünü Sil</button>
             </div>
         </form>
     </div>

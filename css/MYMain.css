@@ -202,6 +202,14 @@ a {
   padding: 10px;
 }
 
+.btn-duzenle {
+  width: 100px;
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 46px;
+  height: 46px;
+}
+
 .personelSil {
   margin-left: 220px;
   border: red 2px solid;
@@ -255,6 +263,11 @@ a {
 
 .btn-purple {
   background-color: purple;
+  color: white;
+}
+
+.btn-lightpurple{
+  background-color: #6d00c1;
   color: white;
 }
 
@@ -487,4 +500,14 @@ a {
   height: 350px;
   margin: 0 auto;
   margin-left: 25px;
+}
+
+.background-photo {
+  background: rgb(77, 1, 136);
+  background: linear-gradient(
+    90deg,
+    rgba(77, 1, 136, 1) 0%,
+    rgba(153, 0, 200, 1) 100%,
+    rgba(0, 212, 255, 0) 100%
+  );
 }

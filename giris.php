@@ -13,10 +13,15 @@ if (isset($_SESSION["personel"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş</title>
     <link rel="stylesheet" href="css\MYLogin.css">
+    <style>
+        body {
+            background-image: url("images\\purplemountain.png");
+        }
+    </style>
 </head>
 
 <body>
-    <div class="loginDiv">
+    <div class="loginDiv" style="background-color: rgba(0,0,0,0.85); padding:70px; border-radius:10px;">
         <img src="images\Loginlogo.png">
         <form action="" method="POST">
             <input type="text" placeholder="Personel Adı" name="personel_ad">

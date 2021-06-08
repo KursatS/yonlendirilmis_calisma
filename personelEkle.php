@@ -46,6 +46,7 @@ if (isset($_POST["personelEkleButton"])) {
 ?>
 
 </body>
+<title>Personel</title>
 
 <script>
     var kontrol = function() {

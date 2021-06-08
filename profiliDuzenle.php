@@ -12,12 +12,13 @@ $_SESSION["personel"] = $satir;
 <head>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="js/md5.js"></script>
+    <title>Profili Düzenle</title>
 </head>
 
 <body>
 
     <section>
-        <div class="personelEkle">
+        <div class="personelEkle background-photo">
             <div class="personelForm">
                 <form action="" method="POST" style="margin-left: 100px;" enctype="multipart/form-data">
                     <div class="personelResim">
@@ -47,7 +48,7 @@ $_SESSION["personel"] = $satir;
                 <div class="personelGiris">
                     <input id="personel_ad" type="text" name="personel_adi" placeholder="Personel Giriş Adı" readonly value="<?php echo $satir["personel_adi"] ?>">
                     <input id="eskiSifre" type="text" name="eskiSifre" placeholder="Şifreniz">
-                    <button id="personelKaydetButon" class="personelEkleKaydet btn-purple" onclick="profilDuzenle()">Kaydet</button>
+                    <button id="personelKaydetButon" class="personelEkleKaydet btn-purple" style="margin-right:10px" onclick="profilDuzenle()">Kaydet</button>
                 </div>
                 <div>
                     <button style="margin: 500px 0 0 0" onclick="$('#sifreDegistirModalCenter').modal('show');" class="btn btn-purple"> Şifre Değiştir </button>

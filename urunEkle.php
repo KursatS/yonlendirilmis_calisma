@@ -2,14 +2,15 @@
 require "header.php";
 ?>
 
+<title>Ürün Ekle</title>
+
 <section>
-    <div class="personelEkle">
+    <div class="personelEkle background-photo">
         <form action="" method="POST" class="personelForm">
-            <div class="personelResim"><i class="fas fa-file-upload fa-10x"></i></div>
-            <div class="personelIsımler">
+            <div class="personelIsımler" style="margin-left:400px">
                 <input type="text" name="urunAdi" placeholder="Ürün Adı" value="">
                 <input type="text" name="urunStok" placeholder="Ürün Stok" value="">
-                <select name="kategori">
+                <select style="height: 50px; width:200px;" name="kategori">
                     <option value="">Kategori Seçiniz</option>
                     <?php
                     $sorgu2 = $dbbaglanti->prepare("SELECT * FROM kategori");
@@ -22,7 +23,7 @@ require "header.php";
                     }
                     ?>
                 </select>
-                <select name="marka">
+                <select style="height: 50px; width:200px;" name="marka">
                     <option value="">Marka Seçiniz</option>
                     <?php
                     $sorgu2 = $dbbaglanti->prepare("SELECT * FROM markalar");
@@ -35,13 +36,13 @@ require "header.php";
                     }
                     ?>
                 </select>
-                <select name="cinsiyet">
+                <select style="height: 50px; width:200px;" name="cinsiyet">
                     <option value="">Cinsiyet Seçiniz</option>
                     <option value="E">Erkek</option>
                     <option value="K">Kadın</option>
                     <option value="U">Unisex</option>
                 </select>
-                <select name="urunNumara">
+                <select style="height: 50px; width:200px;" name="urunNumara">
                     <option value="">Numara Seçiniz</option>
                     <?php
                     for ($i = 35; $i <= 45; $i++) {
@@ -52,7 +53,7 @@ require "header.php";
 
                     ?>
                 </select>
-                <select name="renk">
+                <select style="height: 50px; width:200px;" name="renk">
                     <option value="">Renk Seçiniz</option>
                     <?php
                     $renkler = array("Siyah", "Gri", "Beyaz", "Kırmızı", "Sarı", "Yeşil", "Mavi", "Mor", "Turuncu", "Pembe");
@@ -65,7 +66,7 @@ require "header.php";
                 </select>
             </div>
             <div class="personelGiris">
-                <button class="personelEkleKaydet" type="submit" name="personelEkleButton">Kaydet</button>
+                <button class="personelEkleKaydet btn btn-purple" type="submit" name="personelEkleButton">Kaydet</button>
             </div>
         </form>
     </div>

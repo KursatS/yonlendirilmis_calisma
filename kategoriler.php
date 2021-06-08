@@ -21,6 +21,7 @@ if (isset($_GET["durum"])) {
   ));
 }
 ?>
+<title>Kategoriler</title>
 
 
 <div class="personelListe">

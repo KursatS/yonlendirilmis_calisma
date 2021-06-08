@@ -17,6 +17,8 @@ if (isset($_GET["durum"])) {
 
 ?>
 
+<title>Personeller</title>
+
 
 
 <div class="personelListe">

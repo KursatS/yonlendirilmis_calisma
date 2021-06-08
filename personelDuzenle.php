@@ -7,6 +7,8 @@ $sorgu->execute(array(
 $satir = $sorgu->fetch(PDO::FETCH_ASSOC);
 ?>
 
+<title>Personel</title>
+
 <section>
     <div class="personelEkle background-photo">
         <form action="" method="POST" style="margin-left: 100px;" enctype="multipart/form-data">

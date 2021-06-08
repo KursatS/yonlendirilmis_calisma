@@ -36,6 +36,7 @@ function markaConverter($id, $db)
   return $row["markaAdi"];
 }
 ?>
+<title>Ürün/Stok Yönetimi</title>
 
 <div class="personelListe">
   <div class="table-wrapper-scroll-y my-custom-scrollbar">
